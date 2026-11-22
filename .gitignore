@@ -1,0 +1,15 @@
+*.gb
+*.gbc
+*.sgb
+*.sav
+*.state
+*.bps
+*.ips
+*.zip
+*.bin
+tmp/
+build/
+shots/
+__pycache__/
+work/
+orig/

@@ -1,0 +1,294 @@
+[
+ {
+  "id": "chapter_intro_00",
+  "en": "They came out of nowhere and dragged everyone off! Yaiba, be careful! Those guys are tough!"
+ },
+ {
+  "id": "chapter_intro_02",
+  "en": "Watch out for the Cedar Pollen Soldier's pollen! If it hits you, you won't be able to use special moves!"
+ },
+ {
+  "id": "chapter_intro_03",
+  "en": "Why is there a whole ice world inside a pyramid?! It's so cold, I'm freezing!"
+ },
+ {
+  "id": "chapter_intro_04",
+  "en": "Under this grassland, ant tunnels run every which way like a maze. Stay sharp!"
+ },
+ {
+  "id": "chapter_intro_05",
+  "en": "Yaiba, calm down! If you don't jump, you'll fall headfirst down there!"
+ },
+ {
+  "id": "chapter_intro_06",
+  "en": "This place is a tangled mess, full of tight spots. Watch the enemies' moves and attacks!"
+ },
+ {
+  "id": "chapter_intro_07",
+  "en": "I haven't seen Emerald for a while now... I have a bad feeling about this. Be careful, Yaiba!"
+ },
+ {
+  "id": "chapter_intro_08",
+  "en": "Huh? Where's Sayaka? Hey, Sayaka! ...Darn it, those creeps kidnapped Sayaka!"
+ },
+ {
+  "id": "chapter_intro_09",
+  "en": "This looks like the underground empire's home base... But Yaiba, I know you'll win!"
+ },
+ {
+  "id": "chapter_end_00",
+  "en": "Thanks, Yaiba, ribbit! With this Thunder Orb, you can pull off special moves, ribbit!"
+ },
+ {
+  "id": "chapter_end_02",
+  "en": "I owe you for rescuing me. While I was held captive, I got hold of a medicine said to raise one's life even higher.\n\nThanks to the medicine, the limit of Yaiba's Life went up even more!"
+ },
+ {
+  "id": "chapter_end_03",
+  "en": "Grrrowl!\nKagetora looks really happy that Yaiba rescued him!"
+ },
+ {
+  "id": "chapter_end_04",
+  "en": "Well done, Yaiba! I shall now teach you my Two-Sword Style. But don't you let your guard down!"
+ },
+ {
+  "id": "chapter_end_05",
+  "en": "Kweee!\nShonosuke looks really happy that Yaiba rescued him!"
+ },
+ {
+  "id": "chapter_end_06",
+  "en": "I am most grateful. I shall teach you the Ki art passed down in my family for generations. Your Ki will charge faster!\n\nThanks to the Ki art, Yaiba's Ki now charges even faster!"
+ },
+ {
+  "id": "chapter_end_07",
+  "en": "We did it, Yaiba! The super-gravity device is smashed to bits! And the Pyramid's sinking, too!"
+ },
+ {
+  "id": "chapter_end_08",
+  "en": "Phew, I'm saved! Looks like someone's pulling the strings behind our enemies... Who could it be?"
+ },
+ {
+  "id": "chapter_end_09",
+  "en": "The End"
+ },
+ {
+  "id": "chapter_end_10",
+  "en": "Hm? Th-that sword is...! One of the Maken sealed away in darkness... the Ankokuken!\n\nListen, Yaiba! That sword has tremendous power, but the more you cut with it, the more Life it sucks out of you!\n\nWhen you use that sword, keep an eye on how much Life you have left! Got it?!"
+ },
+ {
+  "id": "rival_00",
+  "en": "Impressive, Kurogane! That's why you are my destined rival..."
+ },
+ {
+  "id": "rival_01",
+  "en": "But once this wound heals, I will come for your life."
+ },
+ {
+  "id": "rival_02",
+  "en": "Prepare yourself!"
+ },
+ {
+  "id": "rival_03",
+  "en": "Hah! Come at me anytime! I'll take you on!!"
+ },
+ {
+  "id": "rival_04",
+  "en": "See ya again... Onimaru!!"
+ },
+ {
+  "id": "powerup_00",
+  "en": "Yaiba can now use the Two-Sword Style!!"
+ },
+ {
+  "id": "powerup_01",
+  "en": "The Raijinken and the Fujinken are wrapped in a mysterious light and become one sword!!\n\nYaiba got the Haoken, the sword with no equal under heaven!!"
+ },
+ {
+  "id": "powerup_02",
+  "en": "Yaiba got the legendary Maken, the Ankokuken!!"
+ },
+ {
+  "id": "powerup_03",
+  "en": "Yaiba took back the stolen Thunder Orb!!"
+ },
+ {
+  "id": "powerup_04",
+  "en": "Yaiba took back the stolen Wind Orb!!"
+ },
+ {
+  "id": "powerup_05",
+  "en": "Yaiba has taken back both the Thunder Orb and the Wind Orb!\n\nNow Yaiba can use the Cross Slash in Dual mode!!"
+ },
+ {
+  "id": "powerup_06",
+  "en": "Yaiba took back the stolen Dragon God Orb!!"
+ },
+ {
+  "id": "sword_menu_01_990d",
+  "en": "Raijin"
+ },
+ {
+  "id": "sword_menu_02_990d",
+  "en": "Fujin"
+ },
+ {
+  "id": "sword_menu_03_990d",
+  "en": "Dual"
+ },
+ {
+  "id": "sword_menu_04_990d",
+  "en": "Haoken"
+ },
+ {
+  "id": "sword_menu_05_990d",
+  "en": "Ankoku"
+ },
+ {
+  "id": "orb_menu_00_99aa",
+  "en": "Thunder"
+ },
+ {
+  "id": "orb_menu_00_9a08",
+  "en": "Lt.Slash"
+ },
+ {
+  "id": "orb_menu_01_99aa",
+  "en": "Dragon"
+ },
+ {
+  "id": "orb_menu_01_9a08",
+  "en": "Firespin"
+ },
+ {
+  "id": "orb_menu_02_99aa",
+  "en": "Wind"
+ },
+ {
+  "id": "orb_menu_02_9a08",
+  "en": "Typhoon"
+ },
+ {
+  "id": "orb_menu_03_99aa",
+  "en": "Dragon"
+ },
+ {
+  "id": "orb_menu_03_9a08",
+  "en": "Cyclone"
+ },
+ {
+  "id": "orb_menu_04_99aa",
+  "en": "Storm"
+ },
+ {
+  "id": "orb_menu_04_9a08",
+  "en": "X-Slash"
+ },
+ {
+  "id": "orb_menu_05_99aa",
+  "en": "Dragon"
+ },
+ {
+  "id": "orb_menu_05_9a08",
+  "en": "Moonspin"
+ },
+ {
+  "id": "orb_menu_06_99aa",
+  "en": "Overlord"
+ },
+ {
+  "id": "orb_menu_06_9a08",
+  "en": "Hao Blast"
+ },
+ {
+  "id": "orb_menu_07_99aa",
+  "en": "Dragon"
+ },
+ {
+  "id": "orb_menu_07_9a08",
+  "en": "Wyrm Ring"
+ },
+ {
+  "id": "orb_menu_08_99aa",
+  "en": "Dark"
+ },
+ {
+  "id": "orb_menu_08_9a08",
+  "en": "DarkSlash"
+ },
+ {
+  "id": "orb_menu_09_99aa",
+  "en": "Dragon"
+ },
+ {
+  "id": "orb_menu_09_9a08",
+  "en": "Dark Wyrm"
+ },
+ {
+  "id": "intro_scroll_r06c03",
+  "en": "Strange quakes."
+ },
+ {
+  "id": "intro_scroll_r08c03",
+  "en": "Friends vanish."
+ },
+ {
+  "id": "intro_scroll_r10c03",
+  "en": "Mysterious foes!"
+ },
+ {
+  "id": "intro_scroll_r13c03",
+  "en": "The chaos peaks"
+ },
+ {
+  "id": "intro_scroll_r15c03",
+  "en": "when a strange"
+ },
+ {
+  "id": "intro_scroll_r17c03",
+  "en": "pyramid appears!"
+ },
+ {
+  "id": "intro_scroll_r20c03",
+  "en": "Led by Emerald,"
+ },
+ {
+  "id": "intro_scroll_r22c03",
+  "en": "a mystery girl,"
+ },
+ {
+  "id": "intro_scroll_r24c03",
+  "en": "Yaiba sets out!!"
+ },
+ {
+  "id": "intro_scroll_r27c03",
+  "en": "Who will win?"
+ },
+ {
+  "id": "intro_scroll_r29c03",
+  "en": "Is it Yaiba...?"
+ },
+ {
+  "id": "intro_scroll_r31c03",
+  "en": "Or the enemy?"
+ },
+ {
+  "id": "sword_select_screen_r02c09",
+  "en": "Yaiba!"
+ },
+ {
+  "id": "sword_select_screen_r04c09",
+  "en": "Which one?"
+ },
+ {
+  "id": "sword_select_screen_r09c14",
+  "en": "Pow"
+ },
+ {
+  "id": "sword_select_screen_r10c14",
+  "en": "Spd"
+ },
+ {
+  "id": "sword_select_screen_r16c01",
+  "en": "Move"
+ }
+]
