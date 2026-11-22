@@ -1,6 +1,6 @@
 # Kenyuu Densetsu Yaiba (GB, Banpresto 1994) - naming glossary
 
-Reference rule (from Andrew): the ANIME is the reference. Official English wins wherever it exists;
+Reference rule: the ANIME is the reference. Official English wins wherever it exists;
 free translation only where none exists, marked "unofficial: reason".
 
 ## Official English sources found (researched 2026-11-22)
