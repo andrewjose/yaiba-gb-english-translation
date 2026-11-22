@@ -19,6 +19,8 @@ Patches are published as release assets (BPS). Required source ROM:
 ## Building from source
 Requirements: Python 3, Pillow, pyphen, rgbds (rgbasm/rgblink/rgbfix), and your own copy of the original ROM
 (MD5 `7d76d2a9eaada93dc846efe1b2a815cc`). PyBoy is only needed for the screenshot/test harnesses.
+Optional: [Flips](https://github.com/Alcaro/Flips) (`--flips`, `$FLIPS` or PATH) for a small BPS patch (~9 KB);
+without it the bundled tools/common/mkbps.py writes a valid but larger patch (~280 KB).
 ```
 python3 build.py --rom "Kenyuu Densetsu Yaiba (Japan).gb"            # rgbds on PATH
 python3 build.py --rom orig.gb --out build/ --rgbds /path/to/rgbds   # or set RGBDS_DIR

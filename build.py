@@ -9,7 +9,7 @@ Steps (all intermediate files go to <out>/work/):
   3. tools/engine/mkfont.py     -> work/font/ (VWF + fixed 8x8 font; the fixed font starts from the ROM's font page)
   4. translation/en.json + extracted strings -> work/tl/out_all.json ([{id, jp, en}])
   5. tools/engine/build.py --gfx (text + VWF engine, then tools/gfx/build_gfx.py)
-  6. <out>/yaiba_en.gb and <out>/yaiba_en.bps (tools/common/mkbps.py)
+  6. <out>/yaiba_en.gb and <out>/yaiba_en.bps (Flips if found, else tools/common/mkbps.py)
 rgbds (rgbasm/rgblink/rgbfix) is taken from --rgbds, $RGBDS_DIR or PATH."""
 import argparse, hashlib, json, os, shutil, subprocess, sys
 
@@ -51,11 +51,19 @@ def merge(en_path, strings_path, out_path):
     print('merged %d translated strings (%d extracted) -> %s' % (len(out), len(S), os.path.relpath(out_path, REPO)))
 
 
+def find_flips(opt, rgbds):
+    for c in (opt, os.environ.get('FLIPS'), shutil.which('flips'), shutil.which('flips-linux'),
+              rgbds and os.path.join(rgbds, 'flips')):
+        if c and os.path.isfile(c) and os.access(c, os.X_OK): return c
+    return None
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('--rom', required=True, help='original Kenyuu Densetsu Yaiba (Japan).gb')
     ap.add_argument('--out', default=os.path.join(REPO, 'build'), help='output directory (default: build/)')
     ap.add_argument('--rgbds', help='directory containing rgbasm/rgblink/rgbfix (default: $RGBDS_DIR or PATH)')
+    ap.add_argument('--flips', help='path to Flips (optional; default: $FLIPS, PATH, then the rgbds dir); used for small BPS patches')
     a = ap.parse_args()
 
     rom = os.path.abspath(a.rom)
@@ -79,7 +87,16 @@ def main():
 
     final = os.path.join(out, 'yaiba_en.gb'); bps = os.path.join(out, 'yaiba_en.bps')
     shutil.copyfile(os.path.splitext(text_gb)[0] + '_full.gb', final)
-    run([os.path.join(TOOLS, 'common', 'mkbps.py'), 'make', rom, final, bps], env)
+    flips = find_flips(a.flips, rgbds)
+    if flips:
+        subprocess.run([flips, '--create', '--bps-delta', rom, final, bps], check=True, stdout=subprocess.DEVNULL)
+        chk = os.path.join(work, 'flips_check.gb'); shutil.copyfile(rom, chk)
+        subprocess.run([flips, '--apply', bps, chk, chk + '.out'], check=True, stdout=subprocess.DEVNULL)
+        if md5(chk + '.out') != md5(final): sys.exit('Flips patch does not reproduce the build')
+        print('BPS made with Flips:', flips)
+    else:
+        run([os.path.join(TOOLS, 'common', 'mkbps.py'), 'make', rom, final, bps], env)
+        print('BPS made with tools/common/mkbps.py (Flips not found; patch will be larger)')
     print('\n%s  %s\n%s  %s' % (md5(final), final, md5(bps), bps))
 
 
