@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Typesetting report + contact sheet for the Yaiba VWF text.
-usage: typeset_check.py [--tl out_all.json] [--override x.json] [--sheet shots/typeset_contact.png]
+usage: typeset_check.py [--tl out_all.json] [--override x.json] [--sheet build/typeset_contact.png]
+Run after build.py (uses build/work/; set YAIBA_WORK / YAIBA_FONT_DIR for another build dir).
 Lists, per dialogue page: line count, per-line width/slack, overflow, stranded last word, hyphenated
 breaks, auto page splits. Renders every page with the real VWF glyphs/advances in its box geometry."""
 import os,sys,json,argparse
-HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.join(HERE,'..')
+HERE=os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0,HERE)
 from textfit import layout,width,Overflow,W as ADV
-from build import GEO,RIVAL_LINES,STRINGS
+from build import GEO,RIVAL_LINES,STRINGS,FONT,WORK
 from PIL import Image,ImageDraw
-VWF=open(os.path.join(ROOT,'font','vwf.bin'),'rb').read()
+VWF=open(os.path.join(FONT,'vwf.bin'),'rb').read()
 def render_page(lines,tiles,nlines,stride_rows=1,scale=3):
     w,h=tiles*8,nlines*8*stride_rows
     im=Image.new('L',(w+4,h+4),255); px=im.load()
@@ -26,8 +27,8 @@ def render_page(lines,tiles,nlines,stride_rows=1,scale=3):
             pen+=ADV[ch]
     return im.resize((im.width*scale,im.height*scale),Image.NEAREST)
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--tl',default='/root/gbtl/yaiba/work/tl/out_all.json')
-    ap.add_argument('--override'); ap.add_argument('--sheet',default=os.path.join(ROOT,'shots','typeset_contact.png'))
+    ap=argparse.ArgumentParser(); ap.add_argument('--tl',default=os.path.join(WORK,'tl','out_all.json'))
+    ap.add_argument('--override'); ap.add_argument('--sheet',default=os.path.join(WORK,'..','typeset_contact.png'))
     a=ap.parse_args()
     tl={e['id']:e['en'] for e in json.load(open(a.tl))}
     if a.override: tl.update(json.load(open(a.override)))

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""build_gfx.py in.gb out.gb [--orig pristine.gb]
+"""build_gfx.py in.gb out.gb --orig pristine.gb   (or $YAIBA_ROM)
 Applies the English graphics of the Yaiba GB translation on top of an input ROM (e.g. the text build).
 - Compressed entries (records at bank0 $3DE5) #00 title tiles, #08 chapter-card tiles, #09 chapter-card map,
   #0E sword-select tiles, #17 game-over tiles are rebuilt, recompressed and placed in bank $18 (512 KB ROM);
@@ -17,10 +17,11 @@ GFX_BANK=0x18           # owned banks: $18-$1F
 REC=0x3de5
 def main():
     args=sys.argv[1:]
-    orig_path='/root/gbtl/yaiba/orig/Kenyuu Densetsu Yaiba (Japan).gb'
+    orig_path=os.environ.get('YAIBA_ROM')
     if '--orig' in args:
         i=args.index('--orig'); orig_path=args[i+1]; del args[i:i+2]
     inp,outp=args
+    if not orig_path: raise SystemExit('build_gfx.py: --orig (or $YAIBA_ROM) is required')
     orig=open(orig_path,'rb').read()
     assert hashlib.md5(orig).hexdigest()=='7d76d2a9eaada93dc846efe1b2a815cc','pristine ROM MD5 mismatch'
     rom=bytearray(open(inp,'rb').read())

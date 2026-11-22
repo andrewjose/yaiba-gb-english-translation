@@ -4,7 +4,7 @@ Tags: **[runtime]** = seen in PyBoy on the built ROM, **[static]** = from code/d
 
 ## Usage
 ```
-python3 -I tools/build_gfx.py in.gb out.gb [--orig pristine.gb]
+python3 -I tools/gfx/build_gfx.py in.gb out.gb --orig pristine.gb    # or $YAIBA_ROM; normally chained by build.py
 ```
 - The input can be 256 KB or 512 KB. A 256 KB input is expanded the same way insert.py does it: $FF padding, 0x148=4.
 - Every byte the script changes is first asserted to equal the pristine ROM (MD5 7d76d2a9...). For compressed entries, the decompressed input data must equal the original data. So running it twice fails, and so does running it after another step that touched the same graphics.

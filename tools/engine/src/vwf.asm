@@ -613,6 +613,6 @@ QueueFlush:
 
 SECTION "vwf font", ROMX[$7C40], BANK[1]
 VwfFont::
-    INCBIN "../font/vwf.bin"
+    INCBIN "vwf.bin"     ; font dir passed with rgbasm -I
 VwfWidths::
-    INCBIN "../font/widths.bin"
+    INCBIN "widths.bin"

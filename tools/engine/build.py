@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
 """Yaiba English build: VWF engine + fixed 8x8 font + text insertion.
-usage: build.py [--tl out_all.json] [--out build/yaiba_en.gb] [--no-tilemaps] [--gfx]
-  --gfx: chain work/gfx/tools/build_gfx.py afterwards -> <out>_full.gb
+Normally run via the repo-root build.py, which prepares build/work/ (strings, fonts, out_all.json).
+usage: build.py --rom orig.gb [--tl out_all.json] [--strings strings.json] [--font-dir DIR] [--rgbds DIR]
+                [--out build/work/engine/yaiba_en.gb] [--gfx]
+  defaults come from $YAIBA_ROM, $YAIBA_WORK (default <repo>/build/work), $YAIBA_FONT_DIR, $RGBDS_DIR / PATH
+  --gfx: chain tools/gfx/build_gfx.py afterwards -> <out>_full.gb
 Steps: expand to 512 KB -> fixed 8x8 font over the kana font (bank 2 $4000) -> wrap/encode dialogue into banks $10-$16 ->
 bank-1 stubs + repointing -> fixed-font menus/tilemaps -> rgbasm/rgblink -O (src/vwf.asm) -> rgbfix -v."""
 import os,sys,json,argparse,subprocess
-HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.abspath(os.path.join(HERE,'..'))
+HERE=os.path.dirname(os.path.abspath(__file__)); REPO=os.path.abspath(os.path.join(HERE,'..','..'))
+WORK=os.path.abspath(os.environ.get('YAIBA_WORK',os.path.join(REPO,'build','work')))
+FONT=os.path.abspath(os.environ.get('YAIBA_FONT_DIR',os.path.join(WORK,'font')))
+os.environ['YAIBA_FONT_DIR']=FONT          # textfit/compose read the generated font from here
+ORIG=os.environ.get('YAIBA_ROM')
+STRINGS=os.environ.get('YAIBA_STRINGS',os.path.join(WORK,'re','strings.json'))
+RGB=os.environ.get('RGBDS_DIR','')         # empty: rgbasm/rgblink/rgbfix from PATH
 sys.path.insert(0,HERE)
 from textfit import layout,width,W as ADV,Overflow
 from gfxdec import decompress
-ORIG='/root/gbtl/yaiba/orig/Kenyuu Densetsu Yaiba (Japan).gb'
-STRINGS='/root/gbtl/yaiba/work/re/strings.json'
-RGB='/root/gbtl/bin'
 # box geometry: (max ink width px, max lines per page, can page)
 GEO={'chapter_intro':(12*8-1,8,True),'powerup':(12*8-1,8,True),'chapter_end':(14*8-1,8,True),'rival':(15*8-2,None,False)}   # ending box shows cols 3-17
 RIVAL_LINES={'rival_00':3,'rival_01':3,'rival_02':1,'rival_03':2,'rival_04':2}
@@ -68,18 +74,24 @@ def rival_tiles(lines,start):
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument('--tl',default='/root/gbtl/yaiba/work/tl/out_all.json')
-    ap.add_argument('--out',default=os.path.join(ROOT,'build','yaiba_en.gb'))
+    global ORIG,STRINGS,RGB
+    ap.add_argument('--rom',default=ORIG,help='original ROM (MD5 7d76d2a9eaada93dc846efe1b2a815cc)')
+    ap.add_argument('--strings',default=STRINGS,help='tools/re/extract.py output')
+    ap.add_argument('--rgbds',default=RGB,help='directory with rgbasm/rgblink/rgbfix (default: PATH)')
+    ap.add_argument('--tl',default=os.path.join(WORK,'tl','out_all.json'))
+    ap.add_argument('--out',default=os.path.join(WORK,'engine','yaiba_en.gb'))
     ap.add_argument('--override',help='JSON {id: en} applied over --tl (test refits)')
     ap.add_argument('--gfx',action='store_true',help='chain the gfx agent build (writes <out stem>_full.gb)')
     a=ap.parse_args()
+    if not a.rom: raise SystemExit('build.py: --rom (or $YAIBA_ROM) is required')
+    ORIG,STRINGS,RGB=a.rom,a.strings,a.rgbds
     os.makedirs(os.path.dirname(os.path.abspath(a.out)),exist_ok=True)
     tl=json.load(open(a.tl)); tl={e['id']:e['en'] for e in tl} if isinstance(tl,list) else tl
     if a.override: tl.update(json.load(open(a.override)))
     S=json.load(open(STRINGS))
     orig=open(ORIG,'rb').read(); rom=bytearray(orig)+b'\xff'*0x40000; rom[0x148]=4
     # fixed font
-    fixed=open(os.path.join(ROOT,'font','fixed.bin'),'rb').read(); rom[off(2,0x4000):off(2,0x4000)+0x800]=fixed   # replaces the kana font in place
+    fixed=open(os.path.join(FONT,'fixed.bin'),'rb').read(); rom[off(2,0x4000):off(2,0x4000)+0x800]=fixed   # replaces the kana font in place
     # ---- dialogue
     report=[]; errors=[]
     tb=0; tpos=TEXT_BANKS[0][1]
@@ -231,14 +243,15 @@ def main():
     bdir=os.path.dirname(os.path.abspath(a.out)); base=os.path.join(bdir,'base.gb')
     open(base,'wb').write(rom)
     obj=os.path.join(bdir,'vwf.o')
-    subprocess.check_call([os.path.join(RGB,'rgbasm'),'-o',obj,os.path.join(ROOT,'src','vwf.asm')],cwd=os.path.join(ROOT,'src'))
+    src=os.path.join(HERE,'src')
+    subprocess.check_call([os.path.join(RGB,'rgbasm'),'-I',FONT+os.sep,'-o',obj,os.path.join(src,'vwf.asm')],cwd=src)
     subprocess.check_call([os.path.join(RGB,'rgblink'),'-O',base,'-o',a.out,'-m',os.path.join(bdir,'vwf.map'),'-n',os.path.join(bdir,'vwf.sym'),obj])
     subprocess.check_call([os.path.join(RGB,'rgbfix'),'-v','-p','0xff',a.out])
     json.dump(report,open(os.path.join(bdir,'layout.json'),'w'),indent=1)
     out=open(a.out,'rb').read()
     if a.gfx:
         full=os.path.splitext(a.out)[0]+'_full.gb'
-        subprocess.check_call([sys.executable,'-I','/root/gbtl/yaiba/work/gfx/tools/build_gfx.py',a.out,full])
+        subprocess.check_call([sys.executable,'-I',os.path.join(REPO,'tools','gfx','build_gfx.py'),a.out,full,'--orig',ORIG])
         print('chained gfx build ->',full)
     print('built %s (%d KB); text bank %02x up to %04x; stub space left %s'%(a.out,len(out)//1024,TEXT_BANKS[tb][0],tpos,[hex(r[1]-r[0]) for r in regions]))
 if __name__=='__main__': main()

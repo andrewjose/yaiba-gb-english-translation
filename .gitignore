@@ -13,3 +13,7 @@ shots/
 __pycache__/
 work/
 orig/
+tools/engine/font/font_fixed.png
+*.o
+*.map
+*.sym

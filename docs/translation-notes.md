@@ -1,6 +1,6 @@
 # Yaiba GB - translation notes
 
-73 entries in out_all.json, validator (tools/validate.py) 0 errors. Build: tools/build.py.
+73 entries in translation/en.json (joined with the extracted Japanese into build/work/tl/out_all.json at build time), 0 validator errors. Build: `python3 build.py --rom ...` at the repo root.
 
 ## Format
 - JP page separator in strings.json is "\n<page>\n"; en uses "\n\n" as instructed. The inserter must map "\n\n" -> page break.
@@ -23,4 +23,4 @@
 - Moves: Lt.Slash (Lightning Slash, official), X-Slash (Cross Slash), DarkSlash (no space, 9 cells), Dark Wyrm (Black Dragon Spin).
 
 ## New names
-All added to /root/gbtl/yaiba/glossary.md under "## Added by translator" (unofficial).
+All added to [glossary.md](glossary.md), marked as unofficial (translator's choice).

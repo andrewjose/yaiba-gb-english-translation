@@ -1,7 +1,8 @@
 # shot_powerup.py rom out.png : stage-clear paths (engine harness emu.py) for chapters 1-8, screenshot every power-up
 # screen 60 frames after its icon is drawn (hook bank0 $052F), holding A to page through text.
 import sys
-sys.path.insert(0,'/root/gbtl/yaiba/work/engine/tools')
+import os
+sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','engine'))
 import emu
 from PIL import Image
 rom,out=sys.argv[1],sys.argv[2]

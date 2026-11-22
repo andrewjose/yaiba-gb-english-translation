@@ -137,7 +137,7 @@ def numerals(b7):
     return bytes(b)
 
 # ---------------------------------------------------------------- orb icons (2x2 "kanji" tiles)
-ORB_LABELS=['T','W','St','Ov','Dk']   # orb level 1-5: 雷 Thunder, 風 Wind, 風雷 Storm (fuurai), 覇 Overlord, 暗 Dark
+ORB_LABELS=['T','W','St','Ov','Dk']   # orb level 1-5: rai Thunder, fuu Wind, fuurai Storm, ha Overlord, an Dark
 def orb_block(orig_px,label):
     """orig_px 16x16 of a kanji tile block; keep its background colour, redraw the label centred"""
     vals=[v for row in orig_px for v in row if v!=3]
@@ -214,7 +214,7 @@ def gameover(t17,m18,t00):
 def gameover_apply(t17,m18,px):
     r0,r1,c0,c1=5,8,4,15
     m=bytearray(m18); t=bytearray(t17)
-    # row 6 col 6 (ゲ dakuten, tile f9) is not needed any more
+    # row 6 col 6 (dakuten of 'ge', tile f9) is not needed any more
     return writeback(t,m,px,r0,r1,c0,c1)
 
 # ---------------------------------------------------------------- bank 7 dragon-orb 4x4 icon (tiles 48-4B,58-5B,68-6B,78-7B)
@@ -271,8 +271,8 @@ def boss_rename(d,font,txt):
         b[0x800+(i+1)*16:0x800+(i+2)*16]=font[ch]
     return bytes(b)
 
-# ---------------------------------------------------------------- pickup orbs 力 / 気 (bank 6, object tiles, 2x2 at tl, tl+1, tl+16, tl+17)
-PICKUPS=[(0x2e,'K'),(0x2c,'P')]   # 気 first: the template orb 0x2c must still be original     # 力 power, 気 ki
+# ---------------------------------------------------------------- pickup orbs chikara / ki (bank 6, object tiles, 2x2 at tl, tl+1, tl+16, tl+17)
+PICKUPS=[(0x2e,'K'),(0x2c,'P')]   # ki first: the template orb 0x2c must still be original     # chikara = power, ki
 def pickup(raw,tl,label,frame_tl=0x2c):
     """frame_tl: the orb whose clean outline is used as the template for every pickup"""
     b=bytearray(raw)

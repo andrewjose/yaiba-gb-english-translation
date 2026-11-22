@@ -1,17 +1,23 @@
 """Draws the Yaiba English fonts (original pixel art, no third-party font data).
 VWF metrics (8 px cell): cap height 6 (rows 0-5), x-height 4 (rows 2-5), baseline under row 5,
 descenders rows 6-7. Advance = ink width + 1 (1 px right bearing). Space advance 3.
-Outputs (work/engine/font/):
+usage: mkfont.py --rom original.gb [--out FONTDIR]   (FONTDIR default: $YAIBA_FONT_DIR or tools/engine/font)
+The fixed font starts from the original ROM's font page, so the ROM is required.
+Outputs:
   vwf.bin     95 glyphs x 8 bytes, 1bpp, MSB = leftmost pixel, ASCII 0x20-0x7E
   widths.bin  95 advances (bytes)
   widths.json {char: advance}  (used by build.py / typeset_check.py)
   fixed.bin   128 x 16 bytes 2bpp tiles: the fixed 8x8 font loaded to VRAM $9000 by $0A13
   fixed8.tbl  tile code table for the fixed font
   font_vwf.png / font_fixed.png  glyph sheets (x4)"""
-import os,json,sys
+import os,json,sys,argparse
 from PIL import Image,ImageDraw
-HERE=os.path.dirname(os.path.abspath(__file__)); OUT=os.path.join(HERE,'..','font')
-ORIG='/root/gbtl/yaiba/orig/Kenyuu Densetsu Yaiba (Japan).gb'
+HERE=os.path.dirname(os.path.abspath(__file__))
+_ap=argparse.ArgumentParser(); _ap.add_argument('--rom',default=os.environ.get('YAIBA_ROM'))
+_ap.add_argument('--out',default=os.environ.get('YAIBA_FONT_DIR',os.path.join(HERE,'font')))
+_a=_ap.parse_args()
+if not _a.rom: raise SystemExit('mkfont.py: --rom (or $YAIBA_ROM) is required')
+OUT=_a.out; ORIG=_a.rom
 G={}
 def g(ch,rows,top=0):
     """rows: list of strings ('#' ink), placed starting at row `top`."""

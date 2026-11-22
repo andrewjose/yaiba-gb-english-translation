@@ -1,4 +1,4 @@
-"""Tilemap codec subset (modes 0/1), copied from work/re/tools/insert.py."""
+"""Tilemap codec subset (modes 0/1), copied from tools/re/insert.py."""
 def compress(data,typ):
     n=typ&0xf; S_=16<<n; nb=len(data)//S_
     ctl=bytearray(); stream=bytearray(); codes=[]

@@ -1,8 +1,8 @@
-# rendermap.py map.bin tiles8800.bin out.png [rows]  - signed tile mode, font from ROM bank2 for codes<0x80
+# rendermap.py map.bin tiles8800.bin out.png rom.gb  - signed tile mode, font from ROM bank2 for codes<0x80
 import sys
 from PIL import Image
 m=open(sys.argv[1],'rb').read(); ts=open(sys.argv[2],'rb').read(); out=sys.argv[3]
-rom=open('/root/gbtl/yaiba/work/re/tmp/y.gb','rb').read(); font=rom[0x8000:0x8800]
+rom=open(sys.argv[4],'rb').read(); font=rom[0x8000:0x8800]
 rows=len(m)//32
 img=Image.new('L',(256,rows*8))
 for r in range(rows):

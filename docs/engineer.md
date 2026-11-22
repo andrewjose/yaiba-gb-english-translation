@@ -7,7 +7,7 @@ a number to the mapper chip (MBC1) - like paging in a memory-mapped file. We dou
 
 **Text encoding.** The game doesn't use ASCII or Shift-JIS; each text byte is simply the number of an
 8x8 picture ("tile") in the font. A table file maps byte -> character, like a custom code page. Dakuten
-marks (゛) were separate bytes drawn on the row above, so every Japanese line used two screen rows.
+marks (dakuten, the two small strokes that voice a kana) were separate bytes drawn on the row above, so every Japanese line used two screen rows.
 
 **Pointers.** Messages are found through tables of 16-bit addresses (pointers). English is longer, so
 the messages were rewritten into a new bank and every pointer (including some hard-coded in code) was

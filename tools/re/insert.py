@@ -37,7 +37,7 @@ def enc(s):
         if ch in REV: o.append(REV[ch])
         else:
             d=unicodedata.normalize('NFD',ch)
-            if len(d)==2 and d[0] in REV and d[1] in '゙゚': o+=bytes([REV[d[0]],0x7c if d[1]=='゙' else 0x7d])
+            if len(d)==2 and d[0] in REV and d[1] in '\u3099\u309a': o+=bytes([REV[d[0]],0x7c if d[1]=='\u3099' else 0x7d])
             else: raise SystemExit('unencodable char %r in %r'%(ch,s))
         i+=1
     return bytes(o)

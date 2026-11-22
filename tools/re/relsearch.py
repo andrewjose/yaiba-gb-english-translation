@@ -1,5 +1,7 @@
-import sys
-SEION="あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん"
+# relsearch.py rom.gb word... : relative search for hiragana words (gojuuon order)
+import os,sys
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+from tbl import HIRA as SEION
 rom=open(sys.argv[1],'rb').read()
 def rs(word,order=SEION):
     idx=[order.index(c) for c in word]

@@ -1,11 +1,10 @@
-# Yaiba GB graphics codec (bank0 $3B7E). decompress() is an independent copy of work/re/tools/gfxdec.py
+# Yaiba GB graphics codec (bank0 $3B7E). decompress() is an independent copy of tools/re/gfxdec.py
 # logic operating on a flat buffer; compress() is its inverse, choosing the smallest mode per block.
 # Stream: type(1) blocks(2 LE) ctl_off(2 LE, from stream start) | data | ctl
 # S = 16<<(type&F) bytes per block. ctl: 2 bits/block LSB-first (type&F != 0) or 1 bit/block (1->mode1, 0->mode2).
 # mode0 zeros | mode1 bitmask(2<<n bytes, LSB-first)+literals | mode2 as 1 then per-tile row XOR undo
 # mode3: raw S bytes (type<0x10) or as 1 then running XOR undo.
 import os,sys
-sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','re','tools'))
 
 def decompress_at(buf,p):
     """decompress stream at flat offset p of buf -> (data, compressed_len)"""

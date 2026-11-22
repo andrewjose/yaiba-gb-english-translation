@@ -1,7 +1,8 @@
 # shot_powerup_forced.py rom out.png : chapter-1 stage-clear power-up screen with the icon byte forced
 # (hook bank0 $051F, register A = icon offset) for every orb icon: T W St Ov Dk Dr
 import sys
-sys.path.insert(0,'/root/gbtl/yaiba/work/engine/tools')
+import os
+sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','engine'))
 import emu
 from PIL import Image
 rom,out=sys.argv[1],sys.argv[2]

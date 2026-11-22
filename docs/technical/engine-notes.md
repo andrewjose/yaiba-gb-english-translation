@@ -4,12 +4,17 @@ Tags: **[runtime]** = seen in PyBoy on the built ROM, **[static]** = from code/d
 
 ## Build
 ```
-python3 tools/mkfont.py                 # only after editing glyphs: font/*.bin, widths.json, fixed8.tbl, PNG sheets
-python3 tools/build.py --gfx            # text+engine -> build/yaiba_en.gb, then work/gfx/tools/build_gfx.py -> build/yaiba_en_full.gb
-python3 tools/typeset_check.py          # per-page widths/flags + shots/typeset_contact.png (exit 1 on hard problems)
-python3 tools/shots.py ROM shots TAG [intro introA crawl swsel swsel2 gameover cardN clearNN rival hud]
+python3 build.py --rom orig.gb [--out build/] [--rgbds DIR]   # full pipeline (see README); intermediates in build/work/
+# individual steps, as run by build.py (env: YAIBA_ROM, YAIBA_WORK=build/work, YAIBA_FONT_DIR=build/work/font, RGBDS_DIR):
+python3 -I tools/re/extract.py orig.gb build/work/re                     # strings.json: ids, pointer locations, headers, field sizes
+python3 -I tools/engine/mkfont.py --rom orig.gb --out build/work/font    # vwf.bin, widths.bin/json, fixed.bin, fixed8.tbl, PNG sheets
+python3 -I tools/engine/build.py --rom orig.gb --tl build/work/tl/out_all.json --out build/work/engine/yaiba_en.gb --gfx
+python3 tools/engine/typeset_check.py     # per-page widths/flags + build/typeset_contact.png (exit 1 on hard problems)
+python3 tools/engine/shots.py ROM shots TAG [intro introA crawl swsel swsel2 gameover cardN clearNN rival hud]
 ```
-- build.py inputs: `/root/gbtl/yaiba/work/tl/out_all.json` (`[{id,en}]`; "\n\n" = page, "\n" = hard break), `work/re/strings.json` (pointer locations). `--override x.json` ({id: en}) for test refits, `--no-tilemaps` to leave maps #07/#0F alone.
+- The fonts are regenerated on every build: fixed.bin starts from the original ROM's font page (bank 2 $4000), so it is never committed. tools/engine/font/ holds reference copies of the ROM-independent outputs (font_vwf.png, widths.json, fixed8.tbl).
+- engine build.py inputs: out_all.json (`[{id,jp,en}]`, made by build.py from translation/en.json + extracted jp; "\n\n" = page, "\n" = hard break), strings.json (pointer locations). `--override x.json` ({id: en}) for test refits.
+- rgbasm is run with `-I <font dir>`; src/vwf.asm INCBINs vwf.bin/widths.bin from there.
 - It errors (exit 1, no ROM) on: page overflow, rival line-slot overflow, rival tile budget, fixed field too long or past the visible cells, glyph not in the fixed font, sword-select glyph outside codes 40-7F.
 - rgbds: `src/vwf.asm` is assembled and overlaid with `rgblink -O base.gb`, then `rgbfix -v -p 0xff` (header and global checksums). Map/sym in `build/`.
 - The chained ROM passes build_gfx.py's pristine-byte asserts (no overlap) **[runtime: built, booted, all scenes below]**.
@@ -55,7 +60,7 @@ Left margin 1 px. English uses the dakuten row too, so an 8-row box gets 8 lines
 - Per-character blip $8E is kept (not on spaces).
 
 ## Fonts
-- VWF (tools/mkfont.py, drawn as ASCII art in the script; no external font data): 8 px cell, cap height 6 (rows 0-5), x-height 4 (rows 2-5), descenders rows 6-7, advance = ink + 1, space 3. Sheet: font/font_vwf.png.
+- VWF (tools/engine/mkfont.py, drawn as ASCII art in the script; no external font data): 8 px cell, cap height 6 (rows 0-5), x-height 4 (rows 2-5), descenders rows 6-7, advance = ink + 1, space 3. Sheet: tools/engine/font/font_vwf.png.
 - Fixed 8x8 (font/fixed.bin -> bank 2 $4000, table font/fixed8.tbl): VWF glyphs widened to 6 px. Only its digits 40-49 (original tiles; game over `xn` = $40+n at $056C, sword-select stats) are still shown; build.py overwrites codes 4A-7F with the sword-select page, so the letters listed in fixed8.tbl for 4A-7F are not in the ROM.
 - 7C/7D are now `:` and `/`, so build.py clears any dakuten row left above a translated tilemap line.
 

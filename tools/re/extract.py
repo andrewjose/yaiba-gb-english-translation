@@ -44,7 +44,7 @@ for block,taddr,cnt,hdr in MENUS:
                 if dk and k<dk[1] and dk[2][k] in (0x7c,0x7d): merged.append(dk[2][k])
             add(id='%s_%02d_%04x'%(block,i,a),block=block,bank=BANK,ptr_locs=['%02x:%04x'%(BANK,taddr+2*i)],addr='%04x'%(o-0x4000+0x4000),
                 off='%05x'%o,kind='fixed',vram='%04x'%a,dakuten_off='%05x'%(dk[0]) if dk else '',raw_hex=dat.hex(),
-                jp=decode(bytes(merged)).rstrip('　'),max_bytes=nn,max_line_cells=nn,
+                jp=decode(bytes(merged)).rstrip('\u3000'),max_bytes=nn,max_line_cells=nn,
                 ctx='VRAM script field (n=%d at $%04x), menu record %d; dakuten row separate at $%04x'%(nn,a,i,a-0x20))
 # tilemaps
 for block,idx in TILEMAPS:

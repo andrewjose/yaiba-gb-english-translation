@@ -1,8 +1,8 @@
 """Precompose VWF text into 8x8 tiles at build time (static screens: intro crawl, sword select)."""
 import os,json
-HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.join(HERE,'..')
-VWF=open(os.path.join(ROOT,'font','vwf.bin'),'rb').read()
-ADV=json.load(open(os.path.join(ROOT,'font','widths.json')))
+HERE=os.path.dirname(os.path.abspath(__file__)); FONT=os.environ.get('YAIBA_FONT_DIR',os.path.join(HERE,'font'))
+VWF=open(os.path.join(FONT,'vwf.bin'),'rb').read()
+ADV=json.load(open(os.path.join(FONT,'widths.json')))
 def text_width(s): return max(0,sum(ADV[c] for c in s)-1) if s else 0
 def render(s,ntiles,x0=0,align='left'):
     """returns list of ntiles 1bpp tiles (8 bytes each). x0: pixel offset (left) or right margin (right)."""
